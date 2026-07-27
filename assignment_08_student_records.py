@@ -89,4 +89,96 @@
 # =============================================================================
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
+class Student:
+    def __init__(self, name, student_id):
+        self.name = name
+        self.id = student_id
+        self.scores = []
 
+
+def calculate_average(student):
+    if not student.scores:
+        return 0.0
+    return sum(student.scores) / len(student.scores)
+
+
+def add_student(students):
+    name = input("Student name: ")
+    student_id = int(input("Student ID: "))
+
+    num_scores = int(input("How many scores? "))
+    if num_scores <= 0:
+        print("Error: Number of scores must be positive.")
+        return
+
+    student = Student(name, student_id)
+    for i in range(num_scores):
+        score = float(input(f"Enter score {i + 1}: "))
+        student.scores.append(score)
+
+    students.append(student)
+    print(f'Student "{student.name}" added successfully.')
+
+
+def display_all_students(students):
+    if not students:
+        print("No students have been added yet.")
+        return
+
+    print(f"{'Name':<20}{'ID':<12}{'Average Score'}")
+    for student in students:
+        avg = calculate_average(student)
+        print(f"{student.name:<20}{student.id:<12}{avg:.2f}")
+
+
+def calculate_average_for_student(students):
+    search_id = int(input("Enter student ID: "))
+
+    for student in students:
+        if student.id == search_id:
+            avg = calculate_average(student)
+            print(f"{student.name}'s average score: {avg:.2f}")
+            return
+
+    print("Error: Student ID not found.")
+
+
+def show_menu():
+    print("\n================================")
+    print("   STUDENT RECORD SYSTEM MENU")
+    print("================================")
+    print("1. Add student")
+    print("2. Display all students")
+    print("3. Calculate average score")
+    print("4. Quit")
+
+
+def main():
+    students = []
+    running = True
+
+    while running:
+        show_menu()
+        choice_input = input("Enter your choice (1-4): ")
+
+        if not choice_input.isdigit():
+            print("Invalid input. Please enter a number between 1 and 4.")
+            continue
+
+        choice = int(choice_input)
+
+        if choice == 1:
+            add_student(students)
+        elif choice == 2:
+            display_all_students(students)
+        elif choice == 3:
+            calculate_average_for_student(students)
+        elif choice == 4:
+            print("Goodbye!")
+            running = False
+        else:
+            print("Invalid choice. Please enter a number between 1 and 4.")
+
+
+if __name__ == "__main__":
+    main()
